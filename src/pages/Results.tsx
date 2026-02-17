@@ -27,7 +27,7 @@ export const ResultsPage: React.FC = () => {
       if (data) {
         setAnalysis(data);
         setSkillConfidence(data.skillConfidenceMap || {});
-        setLiveScore(data.readinessScore);
+        setLiveScore(data.finalScore);
       } else {
         navigate('/dashboard/analyze');
       }
@@ -38,7 +38,7 @@ export const ResultsPage: React.FC = () => {
   useEffect(() => {
     if (!analysis) return;
 
-    const baseScore = analysis.baseReadinessScore || analysis.readinessScore;
+    const baseScore = analysis.baseScore;
     let adjustedScore = baseScore;
 
     // Get all skills as flat array
@@ -61,7 +61,7 @@ export const ResultsPage: React.FC = () => {
     if (id) {
       updateAnalysis(id, {
         skillConfidenceMap: skillConfidence,
-        readinessScore: finalScore
+        finalScore: finalScore
       });
     }
   }, [skillConfidence, analysis, id]);
@@ -85,7 +85,11 @@ export const ResultsPage: React.FC = () => {
 
   const handleDownload = () => {
     if (!analysis) return;
-    const content = exportFullAnalysis({ ...analysis, readinessScore: liveScore, skillConfidenceMap: skillConfidence });
+    const content = exportFullAnalysis({ 
+      ...analysis, 
+      finalScore: liveScore, 
+      skillConfidenceMap: skillConfidence 
+    });
     const filename = `${analysis.company.replace(/\s+/g, '_')}_Analysis_${new Date().toISOString().split('T')[0]}.txt`;
     downloadAsFile(content, filename);
   };

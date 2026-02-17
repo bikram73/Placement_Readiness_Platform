@@ -47,10 +47,11 @@ export function exportFullAnalysis(analysis: AnalysisHistory): string {
   let text = 'PLACEMENT READINESS ANALYSIS\n';
   text += '='.repeat(50) + '\n\n';
 
-  text += `Company: ${analysis.company}\n`;
-  text += `Role: ${analysis.role}\n`;
+  text += `Company: ${analysis.company || 'Not specified'}\n`;
+  text += `Role: ${analysis.role || 'Not specified'}\n`;
   text += `Analyzed: ${new Date(analysis.createdAt).toLocaleString()}\n`;
-  text += `Readiness Score: ${analysis.readinessScore}/100\n\n`;
+  text += `Last Updated: ${new Date(analysis.updatedAt).toLocaleString()}\n`;
+  text += `Readiness Score: ${analysis.finalScore}/100 (Base: ${analysis.baseScore})\n\n`;
 
   text += '='.repeat(50) + '\n\n';
 

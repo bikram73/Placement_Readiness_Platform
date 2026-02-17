@@ -19,10 +19,20 @@ export const AnalyzePage: React.FC = () => {
   const [role, setRole] = useState('');
   const [jdText, setJdText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [validationWarning, setValidationWarning] = useState('');
 
   const handleAnalyze = () => {
+    // Clear previous warnings
+    setValidationWarning('');
+
+    // Validation
     if (!jdText.trim()) {
-      alert('Please enter a job description');
+      setValidationWarning('Please enter a job description to analyze.');
+      return;
+    }
+
+    if (jdText.trim().length < 200) {
+      setValidationWarning('This JD is too short to analyze deeply. Paste full JD for better output.');
       return;
     }
 
@@ -111,11 +121,27 @@ export const AnalyzePage: React.FC = () => {
                 className="w-full border border-gray-300 rounded-md px-4 py-4 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors bg-white min-h-[300px] font-sans"
                 placeholder="Paste the complete job description here..."
                 value={jdText}
-                onChange={(e) => setJdText(e.target.value)}
+                onChange={(e) => {
+                  setJdText(e.target.value);
+                  setValidationWarning('');
+                }}
               />
-              <p className="text-sm text-gray-500 mt-2">
-                {jdText.length} characters {jdText.length > 800 && '✓ Detailed JD (+10 score)'}
-              </p>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-sm text-gray-500">
+                  {jdText.length} characters
+                  {jdText.length > 0 && jdText.length < 200 && (
+                    <span className="text-warning ml-2">• Minimum 200 characters recommended</span>
+                  )}
+                  {jdText.length >= 800 && (
+                    <span className="text-success ml-2">✓ Detailed JD (+10 score)</span>
+                  )}
+                </p>
+              </div>
+              {validationWarning && (
+                <div className="mt-4 p-4 bg-warning/10 border border-warning/30 rounded-md">
+                  <p className="text-sm text-foreground">{validationWarning}</p>
+                </div>
+              )}
             </div>
           </div>
         </Card>

@@ -8,9 +8,29 @@ import { Trash2, Eye } from 'lucide-react';
 export const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
   const [history, setHistory] = useState<AnalysisHistory[]>([]);
+  const [hasCorruptedEntries, setHasCorruptedEntries] = useState(false);
 
   const loadHistory = () => {
-    setHistory(getHistory());
+    try {
+      const stored = localStorage.getItem('placement_analysis_history');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        const validCount = parsed.length;
+        const loadedHistory = getHistory();
+        
+        // Check if any entries were filtered out
+        if (loadedHistory.length < validCount) {
+          setHasCorruptedEntries(true);
+        }
+        
+        setHistory(loadedHistory);
+      } else {
+        setHistory([]);
+      }
+    } catch (error) {
+      setHasCorruptedEntries(true);
+      setHistory([]);
+    }
   };
 
   useEffect(() => {
@@ -33,6 +53,15 @@ export const HistoryPage: React.FC = () => {
     return (
       <div>
         <h1 className="text-4xl font-serif font-bold mb-10">Analysis History</h1>
+        
+        {hasCorruptedEntries && (
+          <Card className="mb-6 bg-warning/10 border-warning/30">
+            <p className="text-sm text-foreground">
+              One or more saved entries couldn't be loaded due to data corruption. Create a new analysis to continue.
+            </p>
+          </Card>
+        )}
+        
         <Card className="text-center py-16">
           <p className="text-gray-600 mb-6">No analysis history yet.</p>
           <Button onClick={() => navigate('/dashboard/analyze')}>
@@ -52,6 +81,14 @@ export const HistoryPage: React.FC = () => {
         </Button>
       </div>
 
+      {hasCorruptedEntries && (
+        <Card className="mb-6 bg-warning/10 border-warning/30">
+          <p className="text-sm text-foreground">
+            One saved entry couldn't be loaded. Create a new analysis.
+          </p>
+        </Card>
+      )}
+
       <div className="space-y-4">
         {history.map((item) => (
           <Card
@@ -66,7 +103,7 @@ export const HistoryPage: React.FC = () => {
                     {item.company}
                   </h3>
                   <span className="px-4 py-1 bg-accent text-white rounded-full text-sm font-medium">
-                    Score: {item.readinessScore}
+                    Score: {item.finalScore}
                   </span>
                 </div>
                 <p className="text-gray-600 mb-2">{item.role}</p>

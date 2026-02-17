@@ -26,9 +26,9 @@ export function extractSkills(jdText: string): ExtractedSkills {
     }
   });
 
-  // If nothing found, add general stack
+  // If nothing found, add default general skills
   if (Object.keys(extracted).length === 0) {
-    extracted['General'] = ['Aptitude', 'Communication', 'Problem Solving'];
+    extracted['General'] = ['Communication', 'Problem Solving', 'Basic Coding', 'Projects'];
   }
 
   return extracted;
