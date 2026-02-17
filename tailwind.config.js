@@ -8,8 +8,8 @@ export default {
       colors: {
         // System Colors
         background: '#F7F6F3', // Off-white
-        primary: '#111111',    // Primary text
-        accent: '#8B0000',     // Deep Red
+        foreground: '#111111', // Primary text
+        accent: '#8B0000', // Deep red
         
         // Status Colors (Muted)
         success: '#557A66',    // Muted Green
