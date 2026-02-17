@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppShell } from './components/layout/AppShell';
 import { Button } from './components/ui/Button';
 import { Card } from './components/ui/Card';
