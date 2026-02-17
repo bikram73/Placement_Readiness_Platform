@@ -49,7 +49,7 @@ export const DashboardLayout: React.FC = () => {
         {/* Header */}
         <header className="bg-white border-b border-border sticky top-0 z-10">
           <div className="px-10 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-serif font-bold text-foreground">Placement Prep</h1>
+            <h1 className="text-2xl font-serif font-bold text-foreground">Placement Readiness Platform</h1>
             <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-white font-semibold">
               U
             </div>
