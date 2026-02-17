@@ -11,6 +11,8 @@ export interface AnalysisHistory {
   checklist: { [round: string]: string[] };
   questions: string[];
   readinessScore: number;
+  baseReadinessScore?: number; // Original score before adjustments
+  skillConfidenceMap?: { [skill: string]: 'know' | 'practice' };
 }
 
 const STORAGE_KEY = 'placement_analysis_history';
@@ -19,7 +21,9 @@ export function saveAnalysis(analysis: Omit<AnalysisHistory, 'id' | 'createdAt'>
   const entry: AnalysisHistory = {
     ...analysis,
     id: Date.now().toString(),
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    baseReadinessScore: analysis.readinessScore,
+    skillConfidenceMap: {}
   };
 
   const history = getHistory();
@@ -27,6 +31,16 @@ export function saveAnalysis(analysis: Omit<AnalysisHistory, 'id' | 'createdAt'>
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
   
   return entry;
+}
+
+export function updateAnalysis(id: string, updates: Partial<AnalysisHistory>): void {
+  const history = getHistory();
+  const index = history.findIndex(item => item.id === id);
+  
+  if (index !== -1) {
+    history[index] = { ...history[index], ...updates };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  }
 }
 
 export function getHistory(): AnalysisHistory[] {
