@@ -7,6 +7,7 @@ import { ResultsPage } from './pages/Results';
 import { HistoryPage } from './pages/History';
 import { TestChecklistPage } from './pages/TestChecklist';
 import { ShipPage } from './pages/Ship';
+import { ProofPage } from './pages/Proof';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         </Route>
 
         {/* PRP Test Routes */}
+        <Route path="/prp/proof" element={<ProofPage />} />
         <Route path="/prp/07-test" element={<TestChecklistPage />} />
         <Route path="/prp/08-ship" element={<ShipPage />} />
 
