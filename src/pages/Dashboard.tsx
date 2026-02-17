@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Calendar, Clock } from 'lucide-react';
@@ -43,6 +44,8 @@ const CircularProgress: React.FC<{ value: number; max: number }> = ({ value, max
 };
 
 export const DashboardHome: React.FC = () => {
+  const navigate = useNavigate();
+
   // Skill breakdown data for radar chart
   const skillData = [
     { subject: 'DSA', score: 75, fullMark: 100 },
@@ -113,7 +116,7 @@ export const DashboardHome: React.FC = () => {
             </div>
             <Button 
               className="w-full"
-              onClick={() => window.location.href = '/practice/dynamic-programming'}
+              onClick={() => navigate('/dashboard/practice')}
             >
               Continue
             </Button>
@@ -171,7 +174,7 @@ export const DashboardHome: React.FC = () => {
                 <Button 
                   variant="secondary" 
                   className="text-sm"
-                  onClick={() => window.location.href = `/assessment/${assessment.title.toLowerCase().replace(/\s+/g, '-')}`}
+                  onClick={() => navigate('/dashboard/assessments')}
                 >
                   View Details
                 </Button>
