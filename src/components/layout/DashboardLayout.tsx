@@ -1,12 +1,14 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Code, ClipboardCheck, BookOpen, User } from 'lucide-react';
+import { LayoutDashboard, Code, ClipboardCheck, BookOpen, User, FileSearch, History } from 'lucide-react';
 
 export const DashboardLayout: React.FC = () => {
   const location = useLocation();
 
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/dashboard/analyze', label: 'Analyze JD', icon: FileSearch },
+    { path: '/dashboard/history', label: 'History', icon: History },
     { path: '/dashboard/practice', label: 'Practice', icon: Code },
     { path: '/dashboard/assessments', label: 'Assessments', icon: ClipboardCheck },
     { path: '/dashboard/resources', label: 'Resources', icon: BookOpen },

@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { DashboardLayout } from './components/layout/DashboardLayout';
 import { DashboardHome, PlaceholderPage } from './pages/Dashboard';
+import { AnalyzePage } from './pages/Analyze';
+import { ResultsPage } from './pages/Results';
+import { HistoryPage } from './pages/History';
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
           <Route path="assessments" element={<PlaceholderPage title="Assessments" />} />
           <Route path="resources" element={<PlaceholderPage title="Learning Resources" />} />
           <Route path="profile" element={<PlaceholderPage title="User Profile" />} />
+          <Route path="analyze" element={<AnalyzePage />} />
+          <Route path="results/:id" element={<ResultsPage />} />
+          <Route path="history" element={<HistoryPage />} />
         </Route>
 
         {/* Catch all */}
