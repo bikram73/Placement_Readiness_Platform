@@ -1,4 +1,5 @@
 import { ExtractedSkills } from './skillExtractor';
+import { CompanyIntel, RoundInfo } from './companyIntel';
 
 export interface AnalysisHistory {
   id: string;
@@ -13,6 +14,8 @@ export interface AnalysisHistory {
   readinessScore: number;
   baseReadinessScore?: number; // Original score before adjustments
   skillConfidenceMap?: { [skill: string]: 'know' | 'practice' };
+  companyIntel?: CompanyIntel;
+  roundMapping?: RoundInfo[];
 }
 
 const STORAGE_KEY = 'placement_analysis_history';

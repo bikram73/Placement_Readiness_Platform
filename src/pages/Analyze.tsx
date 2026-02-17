@@ -10,6 +10,7 @@ import {
   generateInterviewQuestions,
   calculateReadinessScore
 } from '../utils/skillExtractor';
+import { inferCompanyIntel, generateRoundMapping } from '../utils/companyIntel';
 import { saveAnalysis } from '../utils/historyStorage';
 
 export const AnalyzePage: React.FC = () => {
@@ -41,6 +42,12 @@ export const AnalyzePage: React.FC = () => {
         jdText.length
       );
 
+      // Generate company intel and round mapping
+      const companyIntel = company ? inferCompanyIntel(company) : undefined;
+      const roundMapping = companyIntel 
+        ? generateRoundMapping(companyIntel.size, extractedSkills)
+        : undefined;
+
       // Save to history
       const analysis = saveAnalysis({
         company: company || 'Unknown Company',
@@ -50,7 +57,9 @@ export const AnalyzePage: React.FC = () => {
         plan,
         checklist,
         questions,
-        readinessScore
+        readinessScore,
+        companyIntel,
+        roundMapping
       });
 
       setIsAnalyzing(false);

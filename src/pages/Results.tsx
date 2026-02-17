@@ -98,7 +98,7 @@ export const ResultsPage: React.FC = () => {
     );
   }
 
-  const { company, role, extractedSkills, checklist, plan, questions, createdAt } = analysis;
+  const { company, role, extractedSkills, checklist, plan, questions, createdAt, companyIntel, roundMapping } = analysis;
 
   // Get weak skills (marked as "practice")
   const allSkills = Object.values(extractedSkills).flat();
@@ -122,6 +122,69 @@ export const ResultsPage: React.FC = () => {
           Analyzed on {new Date(createdAt).toLocaleDateString()} at {new Date(createdAt).toLocaleTimeString()}
         </p>
       </div>
+
+      {/* Company Intel Block */}
+      {companyIntel && (
+        <Card className="mb-6 bg-blue-50/50 border-blue-200">
+          <h2 className="text-2xl font-serif font-bold mb-4">Company Intel</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Industry</p>
+              <p className="text-lg font-medium text-foreground">{companyIntel.industry}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Company Size</p>
+              <p className="text-lg font-medium text-foreground">{companyIntel.size}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Employees</p>
+              <p className="text-sm text-gray-600">
+                {companyIntel.size === 'Startup' && '<200'}
+                {companyIntel.size === 'Mid-size' && '200-2000'}
+                {companyIntel.size === 'Enterprise' && '2000+'}
+              </p>
+            </div>
+          </div>
+          <div className="mb-4">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Typical Hiring Focus</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{companyIntel.hiringFocus}</p>
+          </div>
+          <p className="text-xs text-gray-500 italic">
+            Demo Mode: Company intel generated heuristically based on available data.
+          </p>
+        </Card>
+      )}
+
+      {/* Round Mapping Timeline */}
+      {roundMapping && roundMapping.length > 0 && (
+        <Card className="mb-6">
+          <h2 className="text-2xl font-serif font-bold mb-6">Interview Round Flow</h2>
+          <div className="space-y-6">
+            {roundMapping.map((round, idx) => (
+              <div key={idx} className="flex gap-4">
+                {/* Timeline indicator */}
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    {idx + 1}
+                  </div>
+                  {idx < roundMapping.length - 1 && (
+                    <div className="w-0.5 h-full bg-border mt-2"></div>
+                  )}
+                </div>
+                {/* Round content */}
+                <div className="flex-1 pb-6">
+                  <h3 className="text-lg font-serif font-semibold text-foreground mb-2">{round.round}</h3>
+                  <p className="text-sm text-gray-700 mb-3">{round.description}</p>
+                  <div className="p-3 bg-background rounded-md border-l-4 border-accent">
+                    <p className="text-xs font-medium text-gray-600 mb-1">Why this round matters:</p>
+                    <p className="text-sm text-gray-700">{round.whyMatters}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
 
       {/* Live Readiness Score */}
       <Card className="mb-6 bg-accent/5 border-accent/20">
