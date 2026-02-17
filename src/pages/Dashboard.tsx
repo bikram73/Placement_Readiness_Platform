@@ -111,7 +111,12 @@ export const DashboardHome: React.FC = () => {
             <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
               <div className="bg-accent h-2 rounded-full transition-all duration-300" style={{ width: '30%' }}></div>
             </div>
-            <Button className="w-full">Continue</Button>
+            <Button 
+              className="w-full"
+              onClick={() => window.location.href = '/practice/dynamic-programming'}
+            >
+              Continue
+            </Button>
           </div>
         </Card>
 
@@ -163,7 +168,13 @@ export const DashboardHome: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <Button variant="secondary" className="text-sm">View Details</Button>
+                <Button 
+                  variant="secondary" 
+                  className="text-sm"
+                  onClick={() => window.location.href = `/assessment/${assessment.title.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  View Details
+                </Button>
               </div>
             ))}
           </div>
